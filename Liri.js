@@ -1,8 +1,11 @@
+var keys = require('./keys.js');
 var Spotify = require('node-spotify-api');
 var Axios = require("axios")
+var Movie_Search = keys.ID.OMDB.id;
+//console.log(process.argv[2])
 
 function printHelp() {
-    console.log('liri.js - Written by Arlen Cornejo <arlen.rose.cr@gmail.com>');
+    console.log('liri.js - Written by Arlen Cornejo');
     console.log('Usage: node liri.js <option>');
     console.log('OPTIONS:  spotify-this-song <song-title>');
     console.log('          movie-this <movie-tile>');
@@ -20,7 +23,7 @@ switch (process.argv[2]) {
         break;
 
     case 'concert-this':
-        console.log('Give me concert info!');
+        console.log('Give me the concert info!');
         concertInfo();
         break;
 
@@ -38,16 +41,19 @@ switch (process.argv[2]) {
         break;
 
     default:
-        console.log('Wrong Usage!');
+        console.log('Something isn`t quite right...');
         printHelp();
         break;
+
 }
 
 function spotifySong() {
-
+    //var spotify = new Spotify(
+    //keys.spotify
+    //);
     var spotify = new Spotify({
-        id: "a3ceba59902a4bd99d2fca4b28ad3e48",
-        secret: "5e05571ee66c4c6bb069a4e0601be7a4"
+        id: keys.ID.spotify.id,
+        secret: keys.ID.spotify.secret,
     });
     qsearch = process.argv.slice(3).join(' ');
     console.log(qsearch);
@@ -55,12 +61,25 @@ function spotifySong() {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log("The name of the song is: " + data.tracks.items[0].name);
-        console.log("To listen to your song go here: " + data.tracks.items[0].external_urls.spotify);
-        console.log("The name of the album is: " + data.tracks.items[0].album.name);
-        console.log("The name of the band/artist is: " + data.tracks.items[0].artists[0].name);
+
+        console.log("Song: " + data.tracks.items[0].name);
+        console.log("Preview Song: " + data.tracks.items[0].external_urls.spotify);
+        console.log("Album: " + data.tracks.items[0].album.name);
+        console.log("Artist(s): " + data.tracks.items[0].artists[0].name);
+        console.log('');
+        console.log('----------------------------------------------------------------------');
+        console.log('');
     });
 }
+
+
+/* 
+Programmer.prototype.printInfo = function() {
+  console.log("Name: " + this.name + "\nPosition: " + this.position + "\nAge: " +
+  this.age + "\nLanguages: " + this.language);
+};
+
+*/
 
 function movieData() {
     console.log("Get the movie info!");
@@ -68,7 +87,7 @@ function movieData() {
     console.log(qsearch);
     const AxiosRequest = () => {
         try {
-            return Axios.get('http://www.omdbapi.com/?t=' + qsearch + '&apikey=trilogy')
+            return Axios.get('http://www.omdbapi.com/?t=' + qsearch + '&apikey='+ Movie_Search)
         } catch (error) {
             console.error(error)
         }
@@ -76,18 +95,25 @@ function movieData() {
     const GetOMDBinfo = async () => {
         const movie = AxiosRequest()
             .then(response => {
-                console.log(response);
+                //console.log(response);
                 res = response.data;
                 if (res) {
+                    console.log('---------------------------------------------------------------------->');
+                    console.log('');
                     console.log("Movie Title: " + res.Title);
                     console.log("Year of Release: " + res.Year);
                     console.log("IMDB Rating: " + res.imdbRating);
-                    //console.log(res.ratings.rottenTomatoesRating);
-                    console.log("Country in which it was Produced" + res.Country);
-                    console.log("Languages: " + res.Language);
-                    console.log("Movie Plot: " + res.Plot);
-                    console.log("Actors" + res.Actors);
+                    console.log("Rotten Tomatoes Rating: " + res.Ratings[1].Value);
+                    console.log("Country: " + res.Country);
+                    console.log("Language: " + res.Language);
+                    console.log("Movie Cast: " + res.Actors);
+                    console.log('');
+                    console.log("Plot: " + res.Plot);
+                    console.log('');
+                    console.log('---------------------------------------------------------------------->');
+                    console.log('');
                 }
+
             })
             .catch(error => {
                 console.log(error)
@@ -97,23 +123,21 @@ function movieData() {
 }
 
 function concertInfo() {
+    console.log("I would like to know more about this concert!");
+    qsearch = process.argv.slice(3).join(' ');
+    console.log(qsearch);
+    const AxiosRequest = () => {
+        try {
+            return Axios.get('http://www.omdbapi.com/?t=' + qsearch + '&apikey=trilogy')
+        } catch (error) {
+            console.error(error)
+
+         
+        }
+    }
     console.log("Concert information here!")
 }
 
 function doWhatItSays() {
-    console.log("Do what it says!")
+    console.log("Do what it says, please.")
 }
-/*
-function movieData() {
-
-    console.log("Get the movie info!")
-    Axios.get("http://www.omdbapi.com/?t=Inception&apikey=trilogy").then(function (data) {
-        console.log(data)
-    })
-}
-
-*/
-
-
-
-
