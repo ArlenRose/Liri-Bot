@@ -1,7 +1,17 @@
+
+require('dotenv').config()
 var keys = require('./keys.js');
+
+var moment = require('moment');
+
 var Spotify = require('node-spotify-api');
-var Axios = require("axios")
-var Movie_Search = keys.ID.OMDB.id;
+
+/*var Axios = require("axios");
+var Movie_Search = new OMDB(keys.ID.OMDB.id);*/
+
+var Axios = require("axios");
+
+
 //console.log(process.argv[2])
 
 function printHelp() {
@@ -41,19 +51,19 @@ switch (process.argv[2]) {
         break;
 
     default:
-        console.log('Something isn`t quite right...');
+        console.log('----------------------------------------------------------------------');
+        console.log('');
+        console.log('Here are a few tools to get you started...');
+        console.log('');
         printHelp();
         break;
-
 }
 
 function spotifySong() {
-    //var spotify = new Spotify(
-    //keys.spotify
-    //);
+    //console.log('process?', process.env)
     var spotify = new Spotify({
-        id: keys.ID.spotify.id,
-        secret: keys.ID.spotify.secret,
+        id: process.env.SPOTIFY_ID,
+        secret: process.env.SPOTIFY_SECRET,
     });
     qsearch = process.argv.slice(3).join(' ');
     console.log(qsearch);
@@ -72,22 +82,13 @@ function spotifySong() {
     });
 }
 
-
-/* 
-Programmer.prototype.printInfo = function() {
-  console.log("Name: " + this.name + "\nPosition: " + this.position + "\nAge: " +
-  this.age + "\nLanguages: " + this.language);
-};
-
-*/
-
 function movieData() {
-    console.log("Get the movie info!");
+    console.log("!");
     qsearch = process.argv.slice(3).join(' ');
     console.log(qsearch);
     const AxiosRequest = () => {
         try {
-            return Axios.get('http://www.omdbapi.com/?t=' + qsearch + '&apikey='+ Movie_Search)
+            return Axios.get('http://www.omdbapi.com/?t=' + qsearch + '&apikey=' + process.env.omdb_key);
         } catch (error) {
             console.error(error)
         }
@@ -123,18 +124,34 @@ function movieData() {
 }
 
 function concertInfo() {
-    console.log("I would like to know more about this concert!");
+    console.log("When ");
     qsearch = process.argv.slice(3).join(' ');
     console.log(qsearch);
-    const AxiosRequest = () => {
-        try {
-            return Axios.get('http://www.omdbapi.com/?t=' + qsearch + '&apikey=trilogy')
-        } catch (error) {
-            console.error(error)
 
-         
-        }
-    }
+    Axios.get('https://rest.bandsintown.com/artists/' + qsearch + '/events?app_id=' + process.env.bands_in_town)
+        .then(function (dataGotBack) {
+            console.log('---------------------------------------------------------------------->');
+            console.log('');
+            console.log('Nane of the Venue: ', dataGotBack.data[0].venue.name);
+            console.log('Venue Location: ',dataGotBack.data[0].venue.country + "-" + dataGotBack.data[0].venue.city+ "-" + dataGotBack.data[0].venue.region);
+            console.log('Date of the Event: ', moment(dataGotBack.data[0].datetime).format("MMM Do YY"));
+            console.log('');
+            console.log('---------------------------------------------------------------------->');
+        })
+
+    // const AxiosRequest = () => {
+    //     try {
+    //         return Axios.get('https://rest.bandsintown.com/artists/' + artist + '/events?app_id=')
+    //     } catch (error) {
+    //         console.error(error)
+    //         /*
+    //         Name of the venue
+    //         Venue location
+    //         Date of the Event (use moment to format this as "MM/DD/YYYY")
+    //          */
+
+    //     }
+    // }
     console.log("Concert information here!")
 }
 

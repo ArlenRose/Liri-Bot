@@ -9,6 +9,6 @@ spotify: {
   secret: process.env.spotify_secret,
 },
 bands: {
-  
+  id: process.env.bands_in_town,
 }
 };
