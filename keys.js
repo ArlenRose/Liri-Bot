@@ -10,5 +10,9 @@ spotify: {
 },
 bands: {
   id: process.env.bands_in_town,
-}
+},
+doWhatItSays: {
+  id: process.env.spotify_id,
+  secret: process.env.spotify_secret,
+},
 };

@@ -1,0 +1,15 @@
+Script started on Tue Jun 18 16:23:22 2019
+[?1034hbash-3.2$ node Liri.js spotify-this-song 'aeroplane over the sea'
+this is loaded
+aeroplane over the sea
+Song: In the Aeroplane Over the Sea
+Preview Song: https://open.spotify.com/track/4OciRObYGzPzlU40U7YRc8
+Album: In the Aeroplane Over the Sea
+Artist(s): Neutral Milk Hotel
+
+----------------------------------------------------------------------
+
+bash-3.2$ exit
+exit
+
+Script done on Tue Jun 18 16:23:58 2019

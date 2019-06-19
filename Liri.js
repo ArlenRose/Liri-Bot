@@ -33,7 +33,7 @@ switch (process.argv[2]) {
         break;
 
     case 'concert-this':
-        console.log('Give me the concert info!');
+        console.log('Tell me more about the upcoming shows!');
         concertInfo();
         break;
 
@@ -60,7 +60,6 @@ switch (process.argv[2]) {
 }
 
 function spotifySong() {
-    //console.log('process?', process.env)
     var spotify = new Spotify({
         id: process.env.SPOTIFY_ID,
         secret: process.env.SPOTIFY_SECRET,
@@ -83,7 +82,6 @@ function spotifySong() {
 }
 
 function movieData() {
-    console.log("!");
     qsearch = process.argv.slice(3).join(' ');
     console.log(qsearch);
     const AxiosRequest = () => {
@@ -124,7 +122,6 @@ function movieData() {
 }
 
 function concertInfo() {
-    console.log("When ");
     qsearch = process.argv.slice(3).join(' ');
     console.log(qsearch);
 
@@ -152,9 +149,28 @@ function concertInfo() {
 
     //     }
     // }
-    console.log("Concert information here!")
 }
 
 function doWhatItSays() {
     console.log("Do what it says, please.")
+//     var spotify = new Spotify({
+//         id: process.env.SPOTIFY_ID,
+//         secret: process.env.SPOTIFY_SECRET,
+//     });
+//     qsearch = process.argv.slice(3).join(' ');
+//     console.log(qsearch);
+//     spotify.search({ type: 'track', query: qsearch }, function (err, data) {
+//         if (err) {
+//             return console.log('Error occurred: ' + err);
+//         }
+
+//         console.log("Song: " + data.tracks.items[0].name);
+//         console.log("Preview Song: " + data.tracks.items[0].external_urls.spotify);
+//         console.log("Album: " + data.tracks.items[0].album.name);
+//         console.log("Artist(s): " + data.tracks.items[0].artists[0].name);
+//         console.log('');
+//         console.log('----------------------------------------------------------------------');
+//         console.log('');
+//     });
+// }
 }
